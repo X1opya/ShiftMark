@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.android.bignerdranch.shiftmark.AnotherActivityes.DaysOptionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp">
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="selectDialogueTimePicker1"
+            android:text="@string/start_time" />
+
+        <TextView
+            android:id="@+id/textViewStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="00:00"
+            android:textSize="@dimen/settings_font_size"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <Button
+            android:id="@+id/btnEnd"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginRight="5dp"
+            android:onClick="selectDialogueTimePicker1"
+            android:text="@string/end_time" />
+
+        <TextView
+            android:id="@+id/textViewEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="00:00"
+            android:textSize="@dimen/settings_font_size"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/settings_margin_top">
+        <LinearLayout
+            android:id="@+id/deleting1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+                <TextView
+                    android:id="@+id/textViewAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/amount"
+                    android:textSize="@dimen/settings_font_size"
+                    android:gravity="center"/>
+
+                <EditText
+                    android:id="@+id/editTextAmount"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:backgroundTint="@color/colorDark"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/percentLiner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewPercent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="%"
+                android:textSize="@dimen/settings_font_size" />
+
+            <EditText
+                android:id="@+id/editTextPercent"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/colorDark"
+                android:gravity="center"
+                android:inputType="number" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/deleting2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/settings_margin_top">
+
+        <TextView
+            android:id="@+id/textViewTips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tips"
+            android:textSize="@dimen/settings_font_size"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/editTextTips"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:backgroundTint="@color/colorDark"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/settings_margin_top">
+
+        <TextView
+            android:id="@+id/textViewMph"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mph"
+            android:textSize="@dimen/settings_font_size"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/editTextMph"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:textColor="@color/textColor"
+            android:backgroundTint="@color/colorDark"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/settings_margin_top">
+
+        <TextView
+            android:id="@+id/textViewIncrHour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/incr_hour"
+            android:textSize="@dimen/settings_font_size"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/operan_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-1"
+                android:onClick="hourOperation"/>
+
+            <Button
+                android:id="@+id/operan_half_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-0.5"
+                android:onClick="hourOperation"/>
+
+            <TextView
+                android:text="0"
+                android:id="@+id/textViewHour"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="numberDecimal" />
+
+            <Button
+                android:id="@+id/operan_half_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0.5"
+                android:onClick="hourOperation"/>
+
+            <Button
+                android:id="@+id/operan_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1"
+                android:onClick="hourOperation"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/settings_margin_top"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:onClick="saveDay"/>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="deleteDay"
+            android:text="@string/delete" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/unsave"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="cancel"/>
+    </LinearLayout>
+</LinearLayout>
