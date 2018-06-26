@@ -16,7 +16,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "shift.db";
     public static final String TABLE = "days";
-    private final int DB_VERSION = 1;
+    public static final String TABLE1 = "PREM";
+    private final int DB_VERSION = 3;
 
     private final String ID = "_id";
     private final String YEAR = "year";
@@ -38,19 +39,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE "
-                + TABLE + " ("
-                + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + YEAR + " INTEGER, "
-                + MONTH + " INTEGER, "
-                + DAY + " INTEGER, "
-                + START_TIME + " TEXT, "
-                + END_TIME+" TEXT, "
-                + AMOUNT + " TEXT, "
-                + PERCENT + " TEXT, "
-                + TIPS +" TEXT, "
-                + MPH +" TEXT, "
-                + INCR_HOUR+" TEXT);");
+        upgradeVersion(db,0,DB_VERSION);
     }
 
     public void addToDb(SQLiteDatabase db, Day day){
@@ -79,8 +68,33 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    private void upgradeVersion(SQLiteDatabase db, int oldVersion, int newVersion){
+        if(oldVersion<1){
+            db.execSQL("CREATE TABLE "
+                    + TABLE + " ("
+                    + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + YEAR + " INTEGER, "
+                    + MONTH + " INTEGER, "
+                    + DAY + " INTEGER, "
+                    + START_TIME + " TEXT, "
+                    + END_TIME+" TEXT, "
+                    + AMOUNT + " TEXT, "
+                    + PERCENT + " TEXT, "
+                    + TIPS +" TEXT, "
+                    + MPH +" TEXT, "
+                    + INCR_HOUR+" TEXT);");
+        }
+        if(oldVersion<2){
+            db.execSQL("CREATE TABLE "+"PREMIUM"+" (_id INTEGER PRIMARY KEY AUTOINCREMENT,many INTEGER, des TEXT);");
+        }
+        if(oldVersion<3){
+            db.execSQL("CREATE TABLE "+TABLE1+" (_id INTEGER PRIMARY KEY AUTOINCREMENT,year INTEGER,month INTEGER,many INTEGER, des TEXT);");
+        }
 
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int old, int newV) {
+        upgradeVersion(db,old,newV);
     }
 }

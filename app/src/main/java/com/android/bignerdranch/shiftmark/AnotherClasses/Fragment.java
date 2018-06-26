@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.bignerdranch.shiftmark.AnotherActivityes.DaysOptionActivity;
-import com.android.bignerdranch.shiftmark.AnotherActivityes.ReportActivity;
 import com.android.bignerdranch.shiftmark.AnotherClasses.data.CulcData;
 import com.android.bignerdranch.shiftmark.AnotherClasses.data.Day;
 import com.android.bignerdranch.shiftmark.AnotherClasses.data.DaySettings;
@@ -106,20 +105,11 @@ public class Fragment extends android.support.v4.app.Fragment {
         res = inflater.inflate(R.layout.fragment_calendar, container, false);
         //btnSelectDays = res.findViewById(R.id.btn_select_days);
         //btnSelectDays.setOnClickListener(onClickSelectListener);
-        gridCalendar = (GridLayout) res.findViewById(R.id.calendarGrid);
+        gridCalendar =  res.findViewById(R.id.calendarGrid);
         calendars = DateManager.getListDates();
         generateCalendar(res, calendars[pageNumber]);//создается каледарь
         editor = new DBEditor(res.getContext());
-        Button btnReport = (Button) res.findViewById(R.id.btnReports);
-        btnReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(res.getContext(),ReportActivity.class);
-                intent.putExtra("m",calendars[pageNumber].get(Calendar.MONTH));
-                intent.putExtra("y",calendars[pageNumber].get(Calendar.YEAR));
-                startActivity(intent);
-            }
-        });
+
         return res;
 
     }
@@ -128,11 +118,11 @@ public class Fragment extends android.support.v4.app.Fragment {
     public void onStart() {
         super.onStart();
 
-        TextView tvForH = (TextView) res.findViewById(R.id.for_hour);
-        TextView tvForP = (TextView) res.findViewById(R.id.for_percent);
-        TextView tvTips = (TextView) res.findViewById(R.id.tips);
-        TextView tvAll = (TextView) res.findViewById(R.id.all);
-        TextView tvHours = (TextView) res.findViewById(R.id.hours);
+        TextView tvForH =  res.findViewById(R.id.for_hour);
+        TextView tvForP =  res.findViewById(R.id.for_percent);
+        TextView tvTips =  res.findViewById(R.id.tips);
+        TextView tvAll =  res.findViewById(R.id.all);
+        TextView tvHours =  res.findViewById(R.id.hours);
         List<Day> list;
         list = editor.listDaysInMonth(calendars[pageNumber]);
         CulcData culc = new CulcData(list,getContext());
@@ -176,7 +166,7 @@ public class Fragment extends android.support.v4.app.Fragment {
     }
 
     private void generateCalendar(View view, Calendar date){
-        TextView head = (TextView) view.findViewById(R.id.head);
+        TextView head =  view.findViewById(R.id.head);
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM.yyyy");
         dateFormat.setCalendar(date);
         strDate = dateFormat.format(date.getTime());

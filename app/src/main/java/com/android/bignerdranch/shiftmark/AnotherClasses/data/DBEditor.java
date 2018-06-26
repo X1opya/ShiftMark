@@ -10,13 +10,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by X1opya on 04.06.2018.
- */
-
 public class DBEditor {
 
     public static final String TABLE = "days";
+    public static final String TABLE1 = "PREM";
     static private final String ID = "_id";
     static private final String YEAR = "year";
     static private final String MONTH = "month";
@@ -132,5 +129,22 @@ public class DBEditor {
         db.close();
         cursor.close();
         return value;
+    }
+
+    public void addPrem(Premium p){
+        db = helper.getWritableDatabase();
+        ContentValues item = new ContentValues();
+        Calendar c = p.getCalendar();
+        item.put("year",c.get(Calendar.YEAR));
+        item.put("month",c.get(Calendar.MONTH));
+        item.put("many",p.getIntMany());
+        item.put("des",p.getDescription());
+        db.insert(TABLE1,null,item);
+        db.close();
+    }
+
+    public Premium selectListPrem(Calendar c){
+
+        return null;
     }
 }

@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AnotherActivityes.DaysOptionActivity" />
-        <activity android:name=".AnotherActivityes.ReportActivity"></activity>
+        <activity android:name=".AnotherActivityes.PremiumActivity"></activity>
     </application>
 
 </manifest>
