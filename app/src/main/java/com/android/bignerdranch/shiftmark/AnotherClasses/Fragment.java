@@ -68,13 +68,8 @@ public class Fragment extends android.support.v4.app.Fragment {
             public void onClick(View view) {
                 Button btn = (Button) view;
                 Gson json = new Gson();
-                //calendars[pageNumber].set(Calendar.DAY_OF_MONTH,);
                 Calendar c = calendars[pageNumber];
                 c.set(Calendar.DAY_OF_MONTH,Integer.parseInt(btn.getText().toString()));
-                Log.println(Log.ASSERT,"Дата фрагмента", c.toString());
-                Log.println(Log.ASSERT,"Передаваемая дата", c.toString());
-                //String strDate = json.toJson(c);
-                //Log.println(Log.ASSERT,"Json дата", strDate);
                 Intent intent = new Intent(res.getContext(), DaysOptionActivity.class);
                 intent.putExtra("y", calendars[pageNumber].get(Calendar.YEAR));
                 intent.putExtra("m", calendars[pageNumber].get(Calendar.MONTH));

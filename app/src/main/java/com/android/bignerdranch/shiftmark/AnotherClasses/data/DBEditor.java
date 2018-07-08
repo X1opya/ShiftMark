@@ -143,8 +143,18 @@ public class DBEditor {
         db.close();
     }
 
-    public Premium selectListPrem(Calendar c){
-
+    public List<Premium> selectListPrem(Calendar c){
+        db = helper.getReadableDatabase();
+        cursor = db.query(TABLE1, new String[]{"*"},"year = "+c.get(Calendar.YEAR)+" AND "+"many = "+(c.get(Calendar.MONTH)+1),null,null,null,null);
+        if(cursor.moveToFirst()){
+            List<Premium> list = new ArrayList<>();
+            do{
+                Premium prem = new Premium(cursor.getInt(3),cursor.getString(4),c);
+                prem.setIndex(cursor.getInt(0));
+                list.add(prem);
+            }while (cursor.moveToNext());
+            return list;
+        }
         return null;
     }
 }

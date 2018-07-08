@@ -33,10 +33,11 @@
         android:onClick="addPrem"/>
 
     <ListView
+        android:id="@+id/listViewPrem"
         android:layout_width="304dp"
         android:layout_height="361dp"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="84dp"
-        tools:ignore="MissingConstraints" />
+        tools:layout_editor_absoluteY="84dp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -31,8 +31,6 @@ public class DateManager {
             }
             calendars[i].set(Calendar.MONTH,c.get(Calendar.MONTH)+difference);
             difference++;
-//            Log.println(Log.ASSERT,Integer.toString(i), calendars[i].toString());
-//            Log.println(Log.ASSERT,Integer.toString(i), Integer.toString(calendars[i].get(Calendar.MONTH)));
         }
         return calendars;
     }
