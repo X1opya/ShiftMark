@@ -1,11 +1,15 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses.data;
+package com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
+import android.util.Log;
 
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.Day;
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.Premium.Premium;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -71,6 +75,8 @@ public class DBEditor {
             day.setTips(cursor.getString(8));
             day.setMoneyPerHour(cursor.getString(9));
             day.setIncrHour(cursor.getString(10));
+            File dbFile = context.getDatabasePath("\"shift.db\"");
+            //Log.println(Log.ASSERT,"ssssssssssssssssssss",dbFile.getAbsolutePath());
         }
         else return null;
         db.close();
@@ -107,7 +113,7 @@ public class DBEditor {
         db = helper.getWritableDatabase();
         db.delete(TABLE,YEAR+" = ?"+" AND "+MONTH+" = ?"+" AND "+
                 DAY+" = ?", new String[]{Integer.toString(date.get(Calendar.YEAR)),Integer.toString(date.get(Calendar.MONTH)), Integer.toString(date.get(Calendar.DAY_OF_MONTH))});
-
+        db.close();
     }
 
     public String getAll(Calendar date){
@@ -143,9 +149,9 @@ public class DBEditor {
         db.close();
     }
 
-    public List<Premium> selectListPrem(Calendar c){
+    public List<Premium> getPremList(Calendar c){
         db = helper.getReadableDatabase();
-        cursor = db.query(TABLE1, new String[]{"*"},"year = "+c.get(Calendar.YEAR)+" AND "+"many = "+(c.get(Calendar.MONTH)+1),null,null,null,null);
+        cursor = db.query(TABLE1, new String[]{"*"},"year = "+c.get(Calendar.YEAR)+" AND "+"month = "+(c.get(Calendar.MONTH)+1),null,null,null,null);
         if(cursor.moveToFirst()){
             List<Premium> list = new ArrayList<>();
             do{
@@ -153,8 +159,25 @@ public class DBEditor {
                 prem.setIndex(cursor.getInt(0));
                 list.add(prem);
             }while (cursor.moveToNext());
+            db.close();
+            cursor.close();
             return list;
         }
-        return null;
+        db.close();
+        cursor.close();
+        return new ArrayList<>();
+    }
+
+    public void deletePrem(int key){
+        db = helper.getWritableDatabase();
+        db.delete(TABLE1,"_id"+" = ?", new String[]{Integer.toString(key)});
+        db.close();
+    }
+
+    public String findeTable(){
+        db = helper.getReadableDatabase();
+        cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE name='PREM'",new String[]{"*"});
+        if(cursor.moveToFirst()) return cursor.getString(0);
+        else return "Нет такой таблицы";
     }
 }

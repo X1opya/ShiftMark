@@ -1,4 +1,4 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses;
+package com.android.bignerdranch.shiftmark.AnotherClasses.data.Premium;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,11 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.Premium;
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase.DBEditor;
 import com.android.bignerdranch.shiftmark.R;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by X1opya on 03.07.2018.
@@ -26,12 +25,15 @@ public class PremAdapter extends ArrayAdapter<Premium> {
     private int layout;
     private Context context;
     List<Premium> list;
+    DBEditor editor;
 
     public PremAdapter(@NonNull Context context, int resource, @NonNull List<Premium> objects) {
         super(context, resource, objects);
         layout = resource;
         this.context = context;
         list = objects;
+        editor = new DBEditor(context);
+        inflater = LayoutInflater.from(context);
     }
 
     @NonNull
@@ -46,5 +48,11 @@ public class PremAdapter extends ArrayAdapter<Premium> {
         if(list.get(position).getIntMany()<0) img.setImageResource(R.drawable.ic_remove_circle_black_24dp);
         else img.setImageResource(R.drawable.ic_add_circle_black_24dp);
         return  view;
+    }
+
+    @Override
+    public void remove(@Nullable Premium object) {
+        super.remove(object);
+        editor.deletePrem(object.getIndex());
     }
 }

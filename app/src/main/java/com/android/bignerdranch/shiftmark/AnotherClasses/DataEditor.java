@@ -4,19 +4,15 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.Day;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DaySettings;
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.DaySettings;
 import com.android.bignerdranch.shiftmark.R;
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
 import static android.content.Context.MODE_PRIVATE;
 

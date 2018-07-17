@@ -1,10 +1,10 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses.data;
+package com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.android.bignerdranch.shiftmark.AnotherClasses.DateManager;
-import com.android.bignerdranch.shiftmark.R;
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.Day;
 
 import java.util.List;
 
@@ -70,7 +70,7 @@ public class CulcData {
 
     public double getForHour(Day d){
         double value = Double.parseDouble(d.getMoneyPerHour()) * getHours(d);
-        Log.println(Log.ASSERT,"----","деньги за часы "+value);
+        //Log.println(Log.ASSERT,"----","деньги за часы "+value);
         return value;
     }
 

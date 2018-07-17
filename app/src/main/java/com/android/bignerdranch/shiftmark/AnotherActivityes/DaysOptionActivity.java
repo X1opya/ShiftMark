@@ -6,7 +6,6 @@ import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,13 +16,12 @@ import android.widget.Toast;
 
 import com.android.bignerdranch.shiftmark.AnotherClasses.DataEditor;
 import com.android.bignerdranch.shiftmark.AnotherClasses.DateManager;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.CulcData;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.Day;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DaySettings;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.MyDatabaseHelper;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DBEditor;
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.CulcData;
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.Day;
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.DaySettings;
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase.MyDatabaseHelper;
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase.DBEditor;
 import com.android.bignerdranch.shiftmark.R;
-import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

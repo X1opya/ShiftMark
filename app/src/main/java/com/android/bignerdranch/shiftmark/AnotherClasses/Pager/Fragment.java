@@ -1,9 +1,8 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses;
+package com.android.bignerdranch.shiftmark.AnotherClasses.Pager;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayout;
 import android.util.Log;
@@ -12,26 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.bignerdranch.shiftmark.AnotherActivityes.DaysOptionActivity;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.CulcData;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.Day;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DaySettings;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.MyDatabaseHelper;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DBEditor;
+import com.android.bignerdranch.shiftmark.AnotherActivityes.PremiumActivity;
+import com.android.bignerdranch.shiftmark.AnotherClasses.DateManager;
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.CulcData;
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.Day;
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase.DBEditor;
 import com.android.bignerdranch.shiftmark.R;
 import com.google.gson.Gson;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-import static com.android.bignerdranch.shiftmark.R.color.colorDark;
 import static com.android.bignerdranch.shiftmark.R.color.colorWhite;
 
 
@@ -103,6 +98,17 @@ public class Fragment extends android.support.v4.app.Fragment {
         gridCalendar =  res.findViewById(R.id.calendarGrid);
         calendars = DateManager.getListDates();
         generateCalendar(res, calendars[pageNumber]);//создается каледарь
+        Button prem = res.findViewById(R.id.btnPremium);
+        prem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(res.getContext(), PremiumActivity.class);
+                intent.putExtra("y", calendars[pageNumber].get(Calendar.YEAR));
+                intent.putExtra("m", calendars[pageNumber].get(Calendar.MONTH));
+                intent.putExtra("d", calendars[pageNumber].get(Calendar.DAY_OF_MONTH));
+                startActivity(intent);
+            }
+        });
         editor = new DBEditor(res.getContext());
 
         return res;
@@ -118,6 +124,8 @@ public class Fragment extends android.support.v4.app.Fragment {
         TextView tvTips =  res.findViewById(R.id.tips);
         TextView tvAll =  res.findViewById(R.id.all);
         TextView tvHours =  res.findViewById(R.id.hours);
+        TextView tvprem =  res.findViewById(R.id.premium);
+        //tvprem.setText(editor.findeTable());
         List<Day> list;
         list = editor.listDaysInMonth(calendars[pageNumber]);
         CulcData culc = new CulcData(list,getContext());
@@ -126,10 +134,11 @@ public class Fragment extends android.support.v4.app.Fragment {
         tvTips.setText(culc.getEarnings(CulcData.TIPS));
         tvAll.setText(culc.getEarnings(CulcData.ALL));
         tvHours.setText(culc.getEarnings(CulcData.HOURS));
+        Log.println(Log.ASSERT,"Data pakeg", Environment.getRootDirectory().toString());
         //Log.println(Log.ASSERT,"Номер страници - "+Integer.toString(pageNumber), "номер месяца с фрагмента :"+Integer.toString(calendars[pageNumber].get(Calendar.MONTH))+"----  номер месяца со списка :"+ Integer.toString(list.get(0).getDate().get(Calendar.MONTH)));
 //        Log.println(Log.ASSERT,"Номер страници - "+Integer.toString(pageNumber), "Количество кнопок :"+Integer.toString(listBtns.size()));
         if(list.size()!=0) {
-            Log.println(Log.ASSERT,"Номер страници - "+Integer.toString(pageNumber), "номер месяца с фрагмента :"+Integer.toString(calendars[pageNumber].get(Calendar.MONTH))+"----  номер месяца со списка :"+ Integer.toString(list.get(0).getDate().get(Calendar.MONTH)));
+            //Log.println(Log.ASSERT,"Номер страници - "+Integer.toString(pageNumber), "номер месяца с фрагмента :"+Integer.toString(calendars[pageNumber].get(Calendar.MONTH))+"----  номер месяца со списка :"+ Integer.toString(list.get(0).getDate().get(Calendar.MONTH)));
             for (Day day : list)
                 for (Button btn: listBtns) {
                     if (day.getSpecificDate(Day.DAY).equals(btn.getText().toString())) {

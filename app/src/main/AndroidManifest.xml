@@ -19,5 +19,4 @@
         <activity android:name=".AnotherActivityes.DaysOptionActivity" />
         <activity android:name=".AnotherActivityes.PremiumActivity"></activity>
     </application>
-
 </manifest>

@@ -1,10 +1,15 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses.data;
+package com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.Day;
+
+import junit.framework.Assert;
 
 import java.util.Calendar;
 
@@ -17,7 +22,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "shift.db";
     public static final String TABLE = "days";
     public static final String TABLE1 = "PREM";
-    private final int DB_VERSION = 3;
+    private final int DB_VERSION = 2;
 
     private final String ID = "_id";
     private final String YEAR = "year";
@@ -69,7 +74,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void upgradeVersion(SQLiteDatabase db, int oldVersion, int newVersion){
-        if(oldVersion<1){
+        if(oldVersion<1 && newVersion ==DB_VERSION){
+            Log.println(Log.ASSERT, "upgradeVersion: ", "Создание 1 таблицы");
             db.execSQL("CREATE TABLE "
                     + TABLE + " ("
                     + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -85,16 +91,26 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                     + INCR_HOUR+" TEXT);");
         }
         if(oldVersion<2){
+            Log.println(Log.ASSERT, "upgradeVersion: ", "Создание 2 таблицы");
             db.execSQL("CREATE TABLE "+"PREMIUM"+" (_id INTEGER PRIMARY KEY AUTOINCREMENT,many INTEGER, des TEXT);");
         }
-        if(oldVersion<3){
+        if(DB_VERSION==4 ){
+            Log.println(Log.ASSERT, "upgradeVersion: ", "Создание 3 таблицы");
             db.execSQL("CREATE TABLE "+TABLE1+" (_id INTEGER PRIMARY KEY AUTOINCREMENT,year INTEGER,month INTEGER,many INTEGER, des TEXT);");
-        }
+       }
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int old, int newV) {
-        upgradeVersion(db,old,newV);
+        Log.println(Log.ASSERT, "sss"," --- onUpgrade database from " + old
+                + " to " + newV + " version --- ");
+        db.execSQL("CREATE TABLE "+TABLE1+" (_id INTEGER PRIMARY KEY AUTOINCREMENT,year INTEGER,month INTEGER,many INTEGER, des TEXT);");
+        //upgradeVersion(db,old,newV);
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        super.onDowngrade(db, oldVersion, newVersion);
     }
 }

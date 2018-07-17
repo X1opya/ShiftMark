@@ -54,7 +54,7 @@ public class DateManager {
     public static int[] splitTime(String s){
         String[] parts = s.split(":");
         int[] intParts = new int[]{Integer.parseInt(parts[0]),Integer.parseInt(parts[1])};
-        Log.println(Log.ASSERT,"String - "+s, parts[0]+"  "+parts[1]);
+        //Log.println(Log.ASSERT,"String - "+s, parts[0]+"  "+parts[1]);
         return  intParts;
     }
 

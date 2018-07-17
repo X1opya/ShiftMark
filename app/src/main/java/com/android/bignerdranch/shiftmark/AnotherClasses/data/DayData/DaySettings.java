@@ -1,4 +1,4 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses.data;
+package com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData;
 
 import android.util.Log;
 import android.widget.EditText;

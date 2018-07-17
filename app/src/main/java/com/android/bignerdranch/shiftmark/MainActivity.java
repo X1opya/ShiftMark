@@ -9,10 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.bignerdranch.shiftmark.AnotherActivityes.DaysOptionActivity;
-import com.android.bignerdranch.shiftmark.AnotherClasses.DateManager;
-import com.android.bignerdranch.shiftmark.AnotherClasses.PageAdapter;
-
-import java.util.Date;
+import com.android.bignerdranch.shiftmark.AnotherClasses.Pager.PageAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,5 +51,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return true;
+
+        
     }
 }
