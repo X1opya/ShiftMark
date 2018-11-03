@@ -39,6 +39,7 @@
 
     <string name="add_premium">Добавить премию </string>
     <string name="remove_premium">Добавить депремию </string>
+    <string name="non_many">Введите сумму</string>
 
 
 </resources>

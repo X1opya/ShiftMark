@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase.DBEditor;
 import com.android.bignerdranch.shiftmark.R;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -39,15 +40,23 @@ public class PremAdapter extends ArrayAdapter<Premium> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View view = inflater.inflate(layout,parent);
+        View view = inflater.inflate(layout,parent,false);
         TextView prem = view.findViewById(R.id.premium);
         TextView desc = view.findViewById(R.id.desc);
-        ImageView img = view.findViewById(R.id.imageView);
         prem.setText(list.get(position).getMany());
         desc.setText(list.get(position).getDescription());
-        if(list.get(position).getIntMany()<0) img.setImageResource(R.drawable.ic_remove_circle_black_24dp);
-        else img.setImageResource(R.drawable.ic_add_circle_black_24dp);
         return  view;
+    }
+
+    public List<Premium> getPrems(){
+        return list;
+    }
+
+
+    @Override
+    public void addAll(@NonNull Collection<? extends Premium> collection) {
+        list.clear();
+        super.addAll(collection);
     }
 
     @Override

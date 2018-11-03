@@ -1,5 +1,7 @@
 package com.android.bignerdranch.shiftmark.AnotherClasses.data.Premium;
 
+import android.text.Editable;
+
 import java.util.Calendar;
 
 /**
@@ -36,7 +38,7 @@ public class Premium {
     }
 
     public String getDescription() {
-
+        if(description.length()==0) return "";
         return description;
     }
 

@@ -16,13 +16,28 @@
             android:ems="10"
             android:gravity="center"
             android:hint="Сумма"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:inputType="number" />
 
         <EditText
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
             android:id="@+id/etDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:hint="Описание" />
+        <TextView
+            android:id="@+id/non_many"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/theme"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

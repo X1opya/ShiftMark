@@ -138,6 +138,7 @@ public class DBEditor {
     }
 
     public void addPrem(Premium p){
+        Log.println(Log.ASSERT,"Data Base Editor", "-----   addPrem");
         db = helper.getWritableDatabase();
         ContentValues item = new ContentValues();
         Calendar c = p.getCalendar();
@@ -150,9 +151,11 @@ public class DBEditor {
     }
 
     public List<Premium> getPremList(Calendar c){
+        Log.println(Log.ASSERT,"Data Base Editor", "-----   getPremList");
         db = helper.getReadableDatabase();
-        cursor = db.query(TABLE1, new String[]{"*"},"year = "+c.get(Calendar.YEAR)+" AND "+"month = "+(c.get(Calendar.MONTH)+1),null,null,null,null);
+        cursor = db.query(TABLE1, new String[]{"*"},"year = "+c.get(Calendar.YEAR)+" AND "+"month = "+(c.get(Calendar.MONTH)),null,null,null,null);
         if(cursor.moveToFirst()){
+            Log.println(Log.ASSERT,"Data Base Editor", "-----   getPremList  Элемент есть");
             List<Premium> list = new ArrayList<>();
             do{
                 Premium prem = new Premium(cursor.getInt(3),cursor.getString(4),c);
@@ -161,14 +164,17 @@ public class DBEditor {
             }while (cursor.moveToNext());
             db.close();
             cursor.close();
+            Log.println(Log.ASSERT,"Data Base Editor", "-----   getPremList  - count "+list.size());
             return list;
-        }
+        }else Log.println(Log.ASSERT,"Data Base Editor", "-----   getPremList  нет элементов");
+
         db.close();
         cursor.close();
         return new ArrayList<>();
     }
 
     public void deletePrem(int key){
+        Log.println(Log.ASSERT,"Data Base Editor", "-----   Deletting item");
         db = helper.getWritableDatabase();
         db.delete(TABLE1,"_id"+" = ?", new String[]{Integer.toString(key)});
         db.close();
