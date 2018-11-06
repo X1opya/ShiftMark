@@ -1,4 +1,4 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses;
+package com.android.bignerdranch.shiftmark;
 
 import android.content.Intent;
 import android.util.Log;

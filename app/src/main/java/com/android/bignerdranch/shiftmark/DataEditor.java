@@ -1,11 +1,10 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses;
+package com.android.bignerdranch.shiftmark;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.DaySettings;
-import com.android.bignerdranch.shiftmark.R;
+import com.android.bignerdranch.shiftmark.data.DayData.DaySettings;
 import com.google.gson.Gson;
 
 import java.io.FileInputStream;

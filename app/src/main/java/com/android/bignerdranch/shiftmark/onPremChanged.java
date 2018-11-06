@@ -1,4 +1,4 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses;
+package com.android.bignerdranch.shiftmark;
 
 /**
  * Created by X1opya on 27.07.2018.

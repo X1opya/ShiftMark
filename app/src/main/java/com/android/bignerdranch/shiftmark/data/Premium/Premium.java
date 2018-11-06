@@ -1,6 +1,4 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses.data.Premium;
-
-import android.text.Editable;
+package com.android.bignerdranch.shiftmark.data.Premium;
 
 import java.util.Calendar;
 

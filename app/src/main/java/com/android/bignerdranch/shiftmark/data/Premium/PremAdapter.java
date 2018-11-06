@@ -1,4 +1,4 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses.data.Premium;
+package com.android.bignerdranch.shiftmark.data.Premium;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,10 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase.DBEditor;
+import com.android.bignerdranch.shiftmark.data.DataBase.DBEditor;
 import com.android.bignerdranch.shiftmark.R;
 
 import java.util.Collection;

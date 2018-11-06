@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AnotherActivityes.DaysOptionActivity" />
-        <activity android:name=".AnotherActivityes.PremiumActivity"></activity>
+        <activity android:name=".DaysOptionActivity" />
+        <activity android:name=".PremiumActivity"></activity>
     </application>
 </manifest>

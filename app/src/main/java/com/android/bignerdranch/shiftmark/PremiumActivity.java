@@ -1,4 +1,4 @@
-package com.android.bignerdranch.shiftmark.AnotherActivityes;
+package com.android.bignerdranch.shiftmark;
 
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -8,12 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.Premium.DialogPremium;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.Premium.PremAdapter;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase.DBEditor;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.Premium.Premium;
+import com.android.bignerdranch.shiftmark.data.Premium.DialogPremium;
+import com.android.bignerdranch.shiftmark.data.Premium.PremAdapter;
+import com.android.bignerdranch.shiftmark.data.DataBase.DBEditor;
+import com.android.bignerdranch.shiftmark.data.Premium.Premium;
 import com.android.bignerdranch.shiftmark.R;
 
 import java.util.Calendar;

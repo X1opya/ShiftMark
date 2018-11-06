@@ -1,4 +1,4 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase;
+package com.android.bignerdranch.shiftmark.data.DataBase;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.Day;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.Premium.Premium;
+import com.android.bignerdranch.shiftmark.data.DayData.Day;
+import com.android.bignerdranch.shiftmark.data.Premium.Premium;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -84,10 +84,10 @@ public class DBEditor {
         return  day;
     }
 
-    public List<Day> listDaysInMonth(Calendar date){
+    public List<Day> selectedDays(Calendar date){
         db = helper.getReadableDatabase();
         List<Day> list = new ArrayList<>();
-        cursor = db.query(TABLE,new String[]{"*"},YEAR+" = "+date.get(Calendar.YEAR)+" AND "+MONTH+" = "+(date.get(Calendar.MONTH)+1),null,null,null,DAY+" ASC");
+        cursor = db.query(TABLE,new String[]{"*"},YEAR+" = "+date.get(Calendar.YEAR)+" AND "+MONTH+" = "+(date.get(Calendar.MONTH)),null,null,null,DAY+" ASC");
         if (cursor.moveToFirst()){
             do{
                 Calendar value = Calendar.getInstance();

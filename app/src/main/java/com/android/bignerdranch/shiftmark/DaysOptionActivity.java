@@ -1,4 +1,4 @@
-package com.android.bignerdranch.shiftmark.AnotherActivityes;
+package com.android.bignerdranch.shiftmark;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -14,13 +14,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.android.bignerdranch.shiftmark.AnotherClasses.DataEditor;
-import com.android.bignerdranch.shiftmark.AnotherClasses.DateManager;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.CulcData;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.Day;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.DaySettings;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase.MyDatabaseHelper;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase.DBEditor;
+import com.android.bignerdranch.shiftmark.DataEditor;
+import com.android.bignerdranch.shiftmark.DateManager;
+import com.android.bignerdranch.shiftmark.data.DayData.CulcData;
+import com.android.bignerdranch.shiftmark.data.DayData.Day;
+import com.android.bignerdranch.shiftmark.data.DayData.DaySettings;
+import com.android.bignerdranch.shiftmark.data.DataBase.MyDatabaseHelper;
+import com.android.bignerdranch.shiftmark.data.DataBase.DBEditor;
 import com.android.bignerdranch.shiftmark.R;
 
 import java.text.SimpleDateFormat;
@@ -72,9 +72,9 @@ public class DaysOptionActivity extends AppCompatActivity {
         else{
             editor = new DBEditor(this);
             date = Calendar.getInstance();
-            date.set(Calendar.YEAR,intent.getIntExtra("y",0));
-            date.set(Calendar.MONTH,intent.getIntExtra("m",0)+1);
-            date.set(Calendar.DAY_OF_MONTH,intent.getIntExtra("d",0));
+            date.set(Calendar.YEAR,intent.getIntExtra("y",-1));
+            date.set(Calendar.MONTH,intent.getIntExtra("m",-1));
+            date.set(Calendar.DAY_OF_MONTH,intent.getIntExtra("d",-1));
             Day day = editor.selectDayForEdite(date);
             SimpleDateFormat format = new SimpleDateFormat("dd MMMM yy");
             format.setCalendar(date);

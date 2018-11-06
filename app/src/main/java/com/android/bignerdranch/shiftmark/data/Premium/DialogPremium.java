@@ -1,4 +1,4 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses.data.Premium;
+package com.android.bignerdranch.shiftmark.data.Premium;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,12 +7,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DataBase.DBEditor;
-import com.android.bignerdranch.shiftmark.AnotherClasses.onPremChanged;
+import com.android.bignerdranch.shiftmark.data.DataBase.DBEditor;
 import com.android.bignerdranch.shiftmark.R;
 
 import java.util.Calendar;

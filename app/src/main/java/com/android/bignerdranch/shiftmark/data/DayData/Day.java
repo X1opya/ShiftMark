@@ -1,4 +1,4 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData;
+package com.android.bignerdranch.shiftmark.data.DayData;
 
 import java.util.Calendar;
 

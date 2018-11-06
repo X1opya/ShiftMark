@@ -1,10 +1,8 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData;
+package com.android.bignerdranch.shiftmark.data.DayData;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.android.bignerdranch.shiftmark.AnotherClasses.DateManager;
-import com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData.Day;
+import com.android.bignerdranch.shiftmark.DateManager;
 
 import java.util.List;
 

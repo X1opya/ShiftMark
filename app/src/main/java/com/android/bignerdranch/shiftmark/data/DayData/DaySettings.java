@@ -1,13 +1,4 @@
-package com.android.bignerdranch.shiftmark.AnotherClasses.data.DayData;
-
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.TimePicker;
-
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.time.Clock;
-import java.util.Calendar;
+package com.android.bignerdranch.shiftmark.data.DayData;
 
 /**
  * Created by X1opya on 09.04.2018.
