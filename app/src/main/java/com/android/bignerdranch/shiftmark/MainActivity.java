@@ -1,17 +1,21 @@
 package com.android.bignerdranch.shiftmark;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.bignerdranch.shiftmark.AnotherClasses.Pager.PageAdapter;
+import com.android.bignerdranch.shiftmark.Settings.SettingsActivity;
 import com.android.bignerdranch.shiftmark.data.DataBase.DBEditor;
 import com.android.bignerdranch.shiftmark.data.DayData.CulcData;
 import com.android.bignerdranch.shiftmark.data.DayData.Day;
@@ -24,12 +28,11 @@ import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    private ViewPager pager;
-    PageAdapter adapter;
     MaterialCalendarView calendarView;
 
-    TextView tvForH,tvForP,tvTips,tvAll,tvHours,tvPrem;
+    TextView tvForH,tvForP,tvTips,tvAll,tvHours,tvPrem, tvSalary;
+    LinearLayout cHour, cMph, cSalary, cTips, cPercent, cPrem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
         tvAll =  findViewById(R.id.all);
         tvHours =  findViewById(R.id.hours);
         tvPrem =  findViewById(R.id.premium);
+        tvSalary =  findViewById(R.id.salary);
+
+        cHour = findViewById(R.id.hour_cont);
+        cMph = findViewById(R.id.mph_cont);
+        cPercent = findViewById(R.id.percent_cont);
+        cPrem = findViewById(R.id.prem_cont);
+        cSalary = findViewById(R.id.salary_cont);
+        cTips = findViewById(R.id.tips_cont);
     }
 
     private void setCalendarListeners(){
@@ -96,6 +107,23 @@ public class MainActivity extends AppCompatActivity {
         tvTips.setText(culc.getEarnings(CulcData.TIPS));
         tvAll.setText(culc.getEarnings(CulcData.ALL));
         tvHours.setText(culc.getEarnings(CulcData.HOURS));
+        tvSalary.setText(culc.getEarnings(CulcData.SALARY));
+    }
+
+    private void updateViews(){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        isViewActive(pref.getBoolean("pref_mph",true), cMph);
+        isViewActive(pref.getBoolean("pref_percent",true), cPercent);
+        isViewActive(pref.getBoolean("pref_tips",true), cTips);
+        isViewActive(pref.getBoolean("pref_salary",true), cSalary);
+        isViewActive(pref.getBoolean("pref_hour",true), cHour);
+        isViewActive(pref.getBoolean("pref_mph",true), cMph);
+
+    }
+
+    static public void isViewActive(boolean prefer, View view){
+        if(prefer) view.setVisibility(View.VISIBLE);
+        else view.setVisibility(View.GONE);
     }
 
     @Override
@@ -109,25 +137,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateUi(calendarView.getCurrentDate());
+        updateViews();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id){
-            case R.id.defaultSettings:{
-                calendarView.clearSelection();
-//                Intent intent = new Intent(this, DaysOptionActivity.class);
-//                intent.putExtra("date", getResources().getString(R.string.set_message_to_settings) );
-//                intent.putExtra("mod",true);
-//                startActivity(intent);
-            }
-            case R.id.depressia:{
-
-            }
+        if (id == R.id.settings) {
+            startActivity(new Intent(this,SettingsActivity.class));
+        } else {
+            Intent intent = new Intent(this, DaysOptionActivity.class);
+            intent.putExtra("date", getResources().getString(R.string.set_message_to_settings));
+            intent.putExtra("mod", true);
+            startActivity(intent);
         }
         return true;
 
-        
     }
 }

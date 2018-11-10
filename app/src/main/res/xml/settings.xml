@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_mph"
+        android:title="Почасовая оплата"
+        android:summary="Расчет ЗП относительно отработанных часов "/>
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_hour"
+        android:title="Часы"
+        android:summary="Отмечать отработанные часы"/>
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_percent"
+        android:title="Проценты"
+        android:summary="Проценты от выручки в день"/>
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_incrh"
+        android:title="+/- час"
+        android:summary="Убрать или добавить часы"/>
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_tips"
+        android:title="Чаевые"/>
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_salary"
+        android:title="Оклад за смену"
+        android:summary="Рекомендуется отключить часовую ставку"/>
+
+</PreferenceScreen>

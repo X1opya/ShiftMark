@@ -17,6 +17,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".DaysOptionActivity" />
-        <activity android:name=".PremiumActivity"></activity>
+        <activity android:name=".PremiumActivity" />
+        <activity
+            android:name=".Settings.SettingsActivity"
+            android:label="@string/title_activity_settings" />
     </application>
+
 </manifest>

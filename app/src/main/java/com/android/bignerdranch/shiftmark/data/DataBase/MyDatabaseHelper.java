@@ -15,7 +15,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "shift.db";
     public static final String TABLE = "days";
     public static final String TABLE1 = "PREM";
-    private final static int DB_VERSION = 2;
+    private final static int DB_VERSION = 1;
 
     private final String ID = "_id";
     private final String YEAR = "year";
@@ -28,6 +28,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private final String TIPS = "tips";
     private final String MPH = "mph";
     private final String INCR_HOUR = "incr_hour";
+    private final String SALARY = "salary";
 
 
 
@@ -48,9 +49,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int old, int newV) {
         Log.println(Log.ASSERT, "sss"," --- onUpgrade database from " + old
                 + " to " + newV + " version --- ");
-        if(old==1 && newV==2){
-            creatPremiumTable(db);
-        }
+//        if(old==1 && newV==2){
+//            creatPremiumTable(db);
+//        }
     }
 
     private void creatDaysTable(@NonNull SQLiteDatabase db){
@@ -66,7 +67,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 + PERCENT + " TEXT, "
                 + TIPS +" TEXT, "
                 + MPH +" TEXT, "
-                + INCR_HOUR+" TEXT);");
+                + INCR_HOUR+" TEXT, "
+                + SALARY+" TEXT)");
     }
 
     private void creatPremiumTable(SQLiteDatabase db){

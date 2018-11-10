@@ -10,6 +10,7 @@ public class Day extends DaySettings {
 
     private double amount;
     private double tips;
+    private int salary;
     public static final int YEAR=1;
     public static final int MONTH=2;
     public static final int DAY=3;
@@ -33,6 +34,16 @@ public class Day extends DaySettings {
         if(amount.length()!=0)
         this.amount = Double.parseDouble(amount);
         else  if(percent==0) this.amount=0;
+    }
+
+    public String getSalary() {
+        if(salary==0) return "0";
+        return String.valueOf(salary);
+    }
+
+    public void setSalary(String salary) {
+        if(salary.length()!=0)
+            this.salary = Integer.parseInt(salary);
     }
 
     public String getTips() {

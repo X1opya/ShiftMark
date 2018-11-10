@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="@string/default_settings"
-        android:id="@+id/defaultSettings"/>
-    <item android:icon="@drawable/ic_trending_down_black_24dp"
-        android:id="@+id/depressia"
-        android:title="@string/depressia"
-        app:showAsAction="always"/>
+    <item
+        android:title="@string/default_settings"
+        android:id="@+id/settings"/>
+    <item
+        android:id="@+id/template"
+        android:title="@string/template"/>
 </menu>

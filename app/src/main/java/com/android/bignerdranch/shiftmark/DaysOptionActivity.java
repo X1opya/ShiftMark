@@ -2,8 +2,10 @@ package com.android.bignerdranch.shiftmark;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,14 +16,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.android.bignerdranch.shiftmark.DataEditor;
-import com.android.bignerdranch.shiftmark.DateManager;
+import com.android.bignerdranch.shiftmark.data.DataEditor;
+import com.android.bignerdranch.shiftmark.data.DateManager;
 import com.android.bignerdranch.shiftmark.data.DayData.CulcData;
 import com.android.bignerdranch.shiftmark.data.DayData.Day;
 import com.android.bignerdranch.shiftmark.data.DayData.DaySettings;
 import com.android.bignerdranch.shiftmark.data.DataBase.MyDatabaseHelper;
 import com.android.bignerdranch.shiftmark.data.DataBase.DBEditor;
-import com.android.bignerdranch.shiftmark.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,16 +38,16 @@ public class DaysOptionActivity extends AppCompatActivity {
     private OnTimeSetListener onTimeSetListener2;
     private TextView tvStart;
     private TextView tvEnd;
-    private EditText etAmount;
+    private EditText etAmount, etSalary;
     private EditText etPercent;
     private EditText etTips;
     private EditText etMph;
     private TextView tvIncrHour;
     private LinearLayout deletingLiner1;
-    private LinearLayout deletingLiner2;
     private Calendar date;
     private DBEditor editor;
     private boolean dayIsExist;
+    LinearLayout hour1Cont, hour2Cont, percentCont, mphCont, salaryCont,tipsCont,incrCont;
 
 
     boolean mod;
@@ -61,10 +62,10 @@ public class DaysOptionActivity extends AppCompatActivity {
         dayIsExist = false;
         initializeWievs();
         initializeTimeListeners();
+        updateViews();
         if(mod){
             deletingLiner1.setGravity(0);
             deletingLiner1.setVisibility(View.GONE);
-            deletingLiner2.setVisibility(View.GONE);
             Button btn = (Button) findViewById(R.id.button);
             btn.setVisibility(View.GONE);
             setTitle(getResources().getString(R.string.set_message_to_settings));
@@ -76,7 +77,7 @@ public class DaysOptionActivity extends AppCompatActivity {
             date.set(Calendar.MONTH,intent.getIntExtra("m",-1));
             date.set(Calendar.DAY_OF_MONTH,intent.getIntExtra("d",-1));
             Day day = editor.selectDayForEdite(date);
-            SimpleDateFormat format = new SimpleDateFormat("dd MMMM yy");
+            SimpleDateFormat format = new SimpleDateFormat("dd MMMM");
             format.setCalendar(date);
             setTitle(format.format(date.getTime()));
             if(day!=null){
@@ -101,6 +102,17 @@ public class DaysOptionActivity extends AppCompatActivity {
                 btn.setVisibility(View.GONE);
             }
             }
+    }
+
+    private void updateViews(){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        MainActivity.isViewActive(pref.getBoolean("pref_mph",true), mphCont);
+        MainActivity.isViewActive(pref.getBoolean("pref_percent",true), percentCont);
+        MainActivity.isViewActive(pref.getBoolean("pref_tips",true), tipsCont);
+        MainActivity.isViewActive(pref.getBoolean("pref_salary",true), salaryCont);
+        MainActivity.isViewActive(pref.getBoolean("pref_hour",true), hour1Cont);
+        MainActivity.isViewActive(pref.getBoolean("pref_hour",true), hour2Cont);
+        MainActivity.isViewActive(pref.getBoolean("pref_incrh",true), incrCont);
     }
 
     private void setTextToTV(TextView tv, String text){
@@ -133,8 +145,17 @@ public class DaysOptionActivity extends AppCompatActivity {
         etTips = (EditText) findViewById(R.id.editTextTips);
         etMph = (EditText) findViewById(R.id.editTextMph);
         tvIncrHour = (TextView) findViewById(R.id.textViewHour);
+        etSalary = findViewById(R.id.editTextSalary);
+
         deletingLiner1 = (LinearLayout) findViewById(R.id.deleting1);
-        deletingLiner2 = (LinearLayout) findViewById(R.id.deleting2);
+
+        mphCont = findViewById(R.id.mph_cont2);
+        salaryCont = findViewById(R.id.salary_cont2);
+        hour1Cont = findViewById(R.id.hour1_cont);
+        hour2Cont = findViewById(R.id.hour2_cont);
+        percentCont = findViewById(R.id.percent_cont2);
+        tipsCont = findViewById(R.id.tips_cont2);
+        incrCont = findViewById(R.id.incr_cont2);
     }
 
 
@@ -164,6 +185,8 @@ public class DaysOptionActivity extends AppCompatActivity {
             day.setMoneyPerHour(etMph.getText().toString());
             if(tvIncrHour.length()!=0)
             day.setIncrHour(tvIncrHour.getText().toString());
+            if(etSalary.length()!=0)
+             day.setSalary(etSalary.getText().toString());
             DataEditor.savePathern(this,day);
         }
         else {
@@ -177,12 +200,9 @@ public class DaysOptionActivity extends AppCompatActivity {
             day.setTips(etTips.getText().toString());
             day.setMoneyPerHour(etMph.getText().toString());
             day.setIncrHour(tvIncrHour.getText().toString());
+            day.setSalary(etSalary.getText().toString());
             if(dayIsExist) editor.deleteDay(date);
-            CulcData culc = new CulcData();
-            Toast.makeText(getApplication().getApplicationContext(),"Отработанно "+culc.getHours(day)+" часов\n" +
-                    "ЗП часами: "+culc.getForHour(day)+"\n" +
-                    "ЗП процентами: " +culc.getForPercent(day)+"\n"+
-                    "Чаевые: "+day.getTips()+"\n",Toast.LENGTH_LONG).show();
+
             editor.addToDb(day);
         }
         finish();

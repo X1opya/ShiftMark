@@ -2,7 +2,7 @@ package com.android.bignerdranch.shiftmark.data.DayData;
 
 import android.content.Context;
 
-import com.android.bignerdranch.shiftmark.DateManager;
+import com.android.bignerdranch.shiftmark.data.DateManager;
 
 import java.util.List;
 
@@ -12,15 +12,14 @@ import java.util.List;
 
 public class CulcData {
     private List<Day> list;
-    private Context context;
     public static final int FOR_HOUR=1;
     public static final int FOR_PERCENT=2;
     public static final int TIPS=3;
     public static final int ALL=4;
     public static final int HOURS=5;
+    public static final int SALARY=6;
 
     public CulcData(List<Day> list , Context context) {
-        this.context=context;
         this.list = list;
     }
 
@@ -33,11 +32,13 @@ public class CulcData {
         double manyForPercent=0;
         double tips = 0;
         double hours = 0;
+        int salary = 0;
         for (Day d: list){
             manyForHours += getForHour(d);
             manyForPercent += getForPercent(d);
             tips += Double.parseDouble(d.getTips());
             hours+=getHours(d);
+            salary += Integer.parseInt(d.getSalary());
         }
         double all = manyForHours+ manyForPercent+tips;
         switch (code){
@@ -46,6 +47,7 @@ public class CulcData {
             case 3: return Double.toString(tips);
             case 4: return Double.toString(all);
             case 5: return Double.toString(hours);
+            case 6: return String.valueOf(salary);
             default: return "-666";
         }
     }

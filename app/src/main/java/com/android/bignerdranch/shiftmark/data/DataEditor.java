@@ -1,9 +1,10 @@
-package com.android.bignerdranch.shiftmark;
+package com.android.bignerdranch.shiftmark.data;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.bignerdranch.shiftmark.R;
 import com.android.bignerdranch.shiftmark.data.DayData.DaySettings;
 import com.google.gson.Gson;
 

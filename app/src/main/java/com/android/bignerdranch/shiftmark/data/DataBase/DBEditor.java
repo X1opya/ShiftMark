@@ -29,6 +29,7 @@ public class DBEditor {
     static private final String TIPS = "tips";
     static private final String MPH = "mph";
     static private final String INCR_HOUR = "incr_hour";
+    private final String SALARY = "salary";
 
     private Context context;
     private SQLiteDatabase db;
@@ -54,6 +55,7 @@ public class DBEditor {
         item.put(TIPS,day.getTips());
         item.put(MPH,day.getMoneyPerHour());
         item.put(INCR_HOUR,day.getIncrHour());
+        item.put(SALARY, day.getSalary());
         db.insert(TABLE,null,item);
         db.close();
         //Toast.makeText(context.getApplicationContext(),"Сохраненно",Toast.LENGTH_SHORT).show();
@@ -75,6 +77,7 @@ public class DBEditor {
             day.setTips(cursor.getString(8));
             day.setMoneyPerHour(cursor.getString(9));
             day.setIncrHour(cursor.getString(10));
+            day.setSalary(cursor.getString(11));
             File dbFile = context.getDatabasePath("\"shift.db\"");
             //Log.println(Log.ASSERT,"ssssssssssssssssssss",dbFile.getAbsolutePath());
         }
@@ -101,6 +104,7 @@ public class DBEditor {
                 day.setTips(cursor.getString(8));
                 day.setMoneyPerHour(cursor.getString(9));
                 day.setIncrHour(cursor.getString(10));
+                day.setSalary(cursor.getString(11));
                 list.add(day);
             }while (cursor.moveToNext());
         }
@@ -114,27 +118,6 @@ public class DBEditor {
         db.delete(TABLE,YEAR+" = ?"+" AND "+MONTH+" = ?"+" AND "+
                 DAY+" = ?", new String[]{Integer.toString(date.get(Calendar.YEAR)),Integer.toString(date.get(Calendar.MONTH)), Integer.toString(date.get(Calendar.DAY_OF_MONTH))});
         db.close();
-    }
-
-    public String getAll(Calendar date){
-        db = helper.getReadableDatabase();
-        String value = "-";
-        cursor = db.query(TABLE,new String[]{"*"},YEAR+" = "+date.get(Calendar.YEAR)+" AND "+MONTH+" = "+(date.get(Calendar.MONTH)+1),null,null,null,DAY+" ASC");
-        if (cursor.moveToFirst()){
-            do{
-                value += Integer.toString(cursor.getInt(1))+"--"+Integer.toString(cursor.getInt(2))+"--"+Integer.toString(cursor.getInt(3))+"||";
-                value += cursor.getString(4)+"||";
-                value += cursor.getString(5)+"||";
-                value += cursor.getString(6)+"||";
-                value += cursor.getString(7)+"||";
-                value += cursor.getString(8)+"||";
-                value += cursor.getString(9)+"||";
-                value += cursor.getString(10)+"|| \n";
-            }while (cursor.moveToNext());
-        }
-        db.close();
-        cursor.close();
-        return value;
     }
 
     public void addPrem(Premium p){
@@ -178,12 +161,5 @@ public class DBEditor {
         db = helper.getWritableDatabase();
         db.delete(TABLE1,"_id"+" = ?", new String[]{Integer.toString(key)});
         db.close();
-    }
-
-    public String findeTable(){
-        db = helper.getReadableDatabase();
-        cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE name='PREM'",new String[]{"*"});
-        if(cursor.moveToFirst()) return cursor.getString(0);
-        else return "Нет такой таблицы";
     }
 }
