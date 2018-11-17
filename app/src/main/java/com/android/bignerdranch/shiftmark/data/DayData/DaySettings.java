@@ -6,12 +6,22 @@ package com.android.bignerdranch.shiftmark.data.DayData;
 
 public class DaySettings {
 
+    protected int salary;
     protected String startTime;
     protected String endTime;
     protected double moneyPerHour;
     protected int percent;
     protected double incrHour;
 
+    public String getSalary() {
+        if(salary==0) return "0";
+        return String.valueOf(salary);
+    }
+
+    public void setSalary(String salary) {
+        if(salary.length()!=0)
+            this.salary = Integer.parseInt(salary);
+    }
 
     public String getIncrHour() {
         return String.valueOf(incrHour);

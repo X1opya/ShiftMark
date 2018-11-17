@@ -40,7 +40,7 @@ public class CulcData {
             hours+=getHours(d);
             salary += Integer.parseInt(d.getSalary());
         }
-        double all = manyForHours+ manyForPercent+tips;
+        double all = manyForHours+ manyForPercent+tips+salary;
         switch (code){
             case 1: return Double.toString(manyForHours);
             case 2: return Double.toString(manyForPercent);

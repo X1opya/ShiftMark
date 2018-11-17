@@ -4,7 +4,6 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,11 +17,12 @@ import android.widget.Toast;
 
 import com.android.bignerdranch.shiftmark.data.DataEditor;
 import com.android.bignerdranch.shiftmark.data.DateManager;
-import com.android.bignerdranch.shiftmark.data.DayData.CulcData;
 import com.android.bignerdranch.shiftmark.data.DayData.Day;
 import com.android.bignerdranch.shiftmark.data.DayData.DaySettings;
 import com.android.bignerdranch.shiftmark.data.DataBase.MyDatabaseHelper;
 import com.android.bignerdranch.shiftmark.data.DataBase.DBEditor;
+import com.android.bignerdranch.shiftmark.data.ModelMonth;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,8 +32,6 @@ import static android.app.TimePickerDialog.*;
 
 public class DaysOptionActivity extends AppCompatActivity {
 
-    private String pickedTime1;
-    private String pickedTime2;
     private OnTimeSetListener onTimeSetListener1;
     private OnTimeSetListener onTimeSetListener2;
     private TextView tvStart;
@@ -84,17 +82,18 @@ public class DaysOptionActivity extends AppCompatActivity {
                 tvStart.setText(day.getStartTime());
                 tvEnd.setText(day.getEndTime());
                 tvIncrHour.setText(day.getIncrHour());
-                setTextToTV(etMph,day.getMoneyPerHour());
-                setTextToTV(etPercent,day.getPercent());
-                setTextToTV(etAmount,day.getAmount());
-                setTextToTV(etTips,day.getTips());
+                setTextToEditeText(etMph,day.getMoneyPerHour());
+                setTextToEditeText(etPercent,day.getPercent());
+                setTextToEditeText(etAmount,day.getAmount());
+                setTextToEditeText(etTips,day.getTips());
+                setTextToEditeText(etSalary,day.getTips());
                 dayIsExist = true;
             }
             else {
 
                 DaySettings pathern = DataEditor.intentFromPathern(this);
-                setTextToTV(etPercent,pathern.getPercent());
-                setTextToTV(etMph,pathern.getMoneyPerHour());
+                setTextToEditeText(etPercent,pathern.getPercent());
+                setTextToEditeText(etMph,pathern.getMoneyPerHour());
                 tvIncrHour.setText(pathern.getIncrHour());
                 tvStart.setText(pathern.getStartTime());
                 tvEnd.setText(pathern.getEndTime());
@@ -115,7 +114,7 @@ public class DaysOptionActivity extends AppCompatActivity {
         MainActivity.isViewActive(pref.getBoolean("pref_incrh",true), incrCont);
     }
 
-    private void setTextToTV(TextView tv, String text){
+    private void setTextToEditeText(EditText tv, String text){
         if(text.equals("0")) tv.setText("");
         else tv.setText(text);
     }
@@ -138,16 +137,16 @@ public class DaysOptionActivity extends AppCompatActivity {
     }
 
     private void initializeWievs(){
-        tvStart = (TextView) findViewById(R.id.textViewStart) ;
-        tvEnd = (TextView) findViewById(R.id.textViewEnd) ;
-        etAmount = (EditText) findViewById(R.id.editTextAmount);
-        etPercent = (EditText) findViewById(R.id.editTextPercent);
-        etTips = (EditText) findViewById(R.id.editTextTips);
-        etMph = (EditText) findViewById(R.id.editTextMph);
-        tvIncrHour = (TextView) findViewById(R.id.textViewHour);
+        tvStart = findViewById(R.id.textViewStart) ;
+        tvEnd = findViewById(R.id.textViewEnd) ;
+        etAmount = findViewById(R.id.editTextAmount);
+        etPercent = findViewById(R.id.editTextPercent);
+        etTips = findViewById(R.id.editTextTips);
+        etMph = findViewById(R.id.editTextMph);
+        tvIncrHour =  findViewById(R.id.textViewHour);
         etSalary = findViewById(R.id.editTextSalary);
 
-        deletingLiner1 = (LinearLayout) findViewById(R.id.deleting1);
+        deletingLiner1 = findViewById(R.id.deleting1);
 
         mphCont = findViewById(R.id.mph_cont2);
         salaryCont = findViewById(R.id.salary_cont2);
@@ -157,8 +156,6 @@ public class DaysOptionActivity extends AppCompatActivity {
         tipsCont = findViewById(R.id.tips_cont2);
         incrCont = findViewById(R.id.incr_cont2);
     }
-
-
 
 
     public void selectDialogueTimePicker1(View view) {
@@ -171,42 +168,59 @@ public class DaysOptionActivity extends AppCompatActivity {
     }
 
     public void saveDay(View view) {
-        MyDatabaseHelper helper = new MyDatabaseHelper(this);
-        SQLiteDatabase db=helper.getWritableDatabase();
-        Day day = new Day();;
         if(mod) {
-
-            day.setStartTime(tvStart.getText().toString());
-            day.setEndTime(tvEnd.getText().toString());
-
-            if(etPercent.length()!=0)
-            day.setPercent(etPercent.getText().toString());
-            if(etMph.length()!=0)
-            day.setMoneyPerHour(etMph.getText().toString());
-            if(tvIncrHour.length()!=0)
-            day.setIncrHour(tvIncrHour.getText().toString());
-            if(etSalary.length()!=0)
-             day.setSalary(etSalary.getText().toString());
-            DataEditor.savePathern(this,day);
+            saveToTxt();
         }
         else {
-            day = new Day();
-            day.setStartTime(tvStart.getText().toString());
-            day.setEndTime(tvEnd.getText().toString());
-            day.setDate(date);
-            //if(etAmount.length()!=0 && etPercent.length()!=0){
-            day.setAmount(etAmount.getText().toString());
-            day.setPercent(etPercent.getText().toString());
-            day.setTips(etTips.getText().toString());
-            day.setMoneyPerHour(etMph.getText().toString());
-            day.setIncrHour(tvIncrHour.getText().toString());
-            day.setSalary(etSalary.getText().toString());
-            if(dayIsExist) editor.deleteDay(date);
-
-            editor.addToDb(day);
+            saveToDB();
+            addMonthToSave();
         }
+
         finish();
     }
+
+    private void saveToTxt(){
+        Day day = new Day();
+        day.setStartTime(tvStart.getText().toString());
+        day.setEndTime(tvEnd.getText().toString());
+
+        if(etPercent.length()!=0)
+            day.setPercent(etPercent.getText().toString());
+        if(etMph.length()!=0)
+            day.setMoneyPerHour(etMph.getText().toString());
+        if(tvIncrHour.length()!=0)
+            day.setIncrHour(tvIncrHour.getText().toString());
+        if(etSalary.length()!=0)
+            day.setSalary(etSalary.getText().toString());
+        DataEditor.savePathern(this,day);
+    }
+
+    private void saveToDB(){
+        Day day = new Day();
+        day.setStartTime(tvStart.getText().toString());
+        day.setEndTime(tvEnd.getText().toString());
+        day.setDate(date);
+        day.setAmount(etAmount.getText().toString());
+        day.setPercent(etPercent.getText().toString());
+        day.setTips(etTips.getText().toString());
+        day.setMoneyPerHour(etMph.getText().toString());
+        day.setIncrHour(tvIncrHour.getText().toString());
+        day.setSalary(etSalary.getText().toString());
+        if(dayIsExist) editor.deleteDay(date);
+        editor.addToDb(day);
+    }
+
+    private void addMonthToSave(){
+        for (ModelMonth m: MainActivity.saveList
+                ) {
+            if(m.getDate().get(Calendar.MONTH)==date.get(Calendar.MONTH) && m.getDate().get(Calendar.YEAR)==date.get(Calendar.YEAR)){
+                MainActivity.saveList.remove(m);
+            }
+        }
+        ModelMonth month = new ModelMonth(date);
+        MainActivity.saveList.add(month);
+        }
+
 
     public void hourOperation(View view) {
         Button btn = (Button) view;
@@ -224,6 +238,7 @@ public class DaysOptionActivity extends AppCompatActivity {
         intent.putExtra("number", date.get(Calendar.DAY_OF_MONTH)-1);
         setResult(RESULT_OK,intent);
         Toast.makeText(getApplication().getApplicationContext(),"Удаленно",Toast.LENGTH_SHORT).show();
+        addMonthToSave();
         finish();
     }
 

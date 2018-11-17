@@ -1,13 +1,17 @@
 package com.android.bignerdranch.shiftmark;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,19 +23,43 @@ import com.android.bignerdranch.shiftmark.Settings.SettingsActivity;
 import com.android.bignerdranch.shiftmark.data.DataBase.DBEditor;
 import com.android.bignerdranch.shiftmark.data.DayData.CulcData;
 import com.android.bignerdranch.shiftmark.data.DayData.Day;
+import com.android.bignerdranch.shiftmark.data.ModelMonth;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static android.content.SharedPreferences.*;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String REF = "Users/" ;
+    public static final String APP_PREFERENCES = "guid" ;
+    public static final String IS_END = "is_end" ;
+    SharedPreferences mSettings;
+
     MaterialCalendarView calendarView;
 
     TextView tvForH,tvForP,tvTips,tvAll,tvHours,tvPrem, tvSalary;
     LinearLayout cHour, cMph, cSalary, cTips, cPercent, cPrem;
+    static public List<ModelMonth> saveList; //добавляются месяцы подвергнувшиеся редактированию. После отдаются на сохранение в FireBase
+    DBEditor editor;
+
+    FirebaseDatabase database;
 
 
     @Override
@@ -39,8 +67,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        if(!mSettings.getBoolean(IS_END,false)){
+            startActivity(new Intent(this,SettingsActivity.class));
+        }
+        startActivity(new Intent(this,AuthorizeActivity.class));
+        editor = new DBEditor(this);
         initViews();
+        database = FirebaseDatabase.getInstance();
         updateUi(calendarView.getCurrentDate());
+
 
     }
 
@@ -49,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_MULTIPLE);
 
         setCalendarListeners();
+
+        saveList = new ArrayList<>();
 
         tvForH =  findViewById(R.id.for_hour);
         tvForP =  findViewById(R.id.for_percent);
@@ -70,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                Toast.makeText(getBaseContext(),date.toString(),Toast.LENGTH_SHORT).show();
                 widget.setDateSelected(date,false);
                 startOprionsActivity(date);
             }
@@ -78,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
         calendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
-                //проверить методы на смену месяца
                 updateUi(calendarView.getCurrentDate());
             }
         });
@@ -95,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateUi(CalendarDay d){
         Calendar date = Calendar.getInstance();
         date.set(d.getYear(),d.getMonth(),d.getDay());
-        DBEditor editor = new DBEditor(this);
+
         List<Day> list = editor.selectedDays(date);
         //calendarView.setSelectionColor(R.color.theme);
         for(Day day: list) {
@@ -132,6 +168,23 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.settings) {
+            startActivity(new Intent(this,SettingsActivity.class));
+        } else if(id == R.id.template) {
+            Intent intent = new Intent(this, DaysOptionActivity.class);
+            intent.putExtra("date", getResources().getString(R.string.set_message_to_settings));
+            intent.putExtra("mod", true);
+            startActivity(intent);
+        }else if(id == R.id.logout)
+        {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this,AuthorizeActivity.class));
+        }
+        return true;
+    }
 
     @Override
     protected void onResume() {
@@ -140,18 +193,35 @@ public class MainActivity extends AppCompatActivity {
         updateViews();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.settings) {
-            startActivity(new Intent(this,SettingsActivity.class));
-        } else {
-            Intent intent = new Intent(this, DaysOptionActivity.class);
-            intent.putExtra("date", getResources().getString(R.string.set_message_to_settings));
-            intent.putExtra("mod", true);
-            startActivity(intent);
-        }
-        return true;
-
+    private void writeOneToFirebase(ModelMonth m){
+        DatabaseReference myRef = database.getReference(REF+FirebaseAuth.getInstance().getUid());
+        Gson gson = new GsonBuilder().create();
+        String d = gson.toJson(m,ModelMonth.class);
+        Map<String,Object> items = new HashMap<>();
+        items.put(m.getStringDate(),d);
+        myRef.updateChildren(items);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        writeAllModelsTodb(saveList);
+        //load to firebase database
+    }
+
+    private void writeAllModelsTodb(List<ModelMonth> saveList){
+        for (ModelMonth m: saveList
+                ) {
+            m.setDays(editor.selectedDays(m.getDate()));
+            writeOneToFirebase(m);
+        }
+        saveList.clear();
+    }
+
+
 }

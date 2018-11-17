@@ -61,6 +61,13 @@ public class DBEditor {
         //Toast.makeText(context.getApplicationContext(),"Сохраненно",Toast.LENGTH_SHORT).show();
     }
 
+    public void addList(List<Day> list){
+        for (Day d: list){
+            addToDb(d);
+        }
+
+    }
+
     public Day selectDayForEdite(Calendar date){
         db = helper.getReadableDatabase();
         cursor = db.query(TABLE,new String[]{"*"},YEAR+" = "+date.get(Calendar.YEAR)+" AND "+MONTH+" = "+date.get(Calendar.MONTH)+" AND "+
