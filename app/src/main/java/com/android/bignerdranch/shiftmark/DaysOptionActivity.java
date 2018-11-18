@@ -7,6 +7,8 @@ import android.content.pm.ActivityInfo;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.bignerdranch.shiftmark.Spotlite.SpotliteMarks;
 import com.android.bignerdranch.shiftmark.data.DataEditor;
 import com.android.bignerdranch.shiftmark.data.DateManager;
 import com.android.bignerdranch.shiftmark.data.DayData.Day;
@@ -56,6 +59,14 @@ public class DaysOptionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_days_option);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Intent intent = getIntent();
+        if(intent.getBooleanExtra("hint",false)) {
+            SpotliteMarks.globalMark(this, findViewById(R.id.days_option_container),
+                    "Шаблон",
+                    "Задайте шаблон, который автоматически заполнит выбранную смену. Останется только добавить правки и сохранить");
+            SharedPreferences.Editor editor = getSharedPreferences(MainActivity.APP_PREFERENCES,MODE_PRIVATE).edit();
+            editor.putBoolean(MainActivity.IS_END,true);
+            editor.apply();
+        }
         mod = intent.getBooleanExtra("mod",false);
         dayIsExist = false;
         initializeWievs();
@@ -86,18 +97,18 @@ public class DaysOptionActivity extends AppCompatActivity {
                 setTextToEditeText(etPercent,day.getPercent());
                 setTextToEditeText(etAmount,day.getAmount());
                 setTextToEditeText(etTips,day.getTips());
-                setTextToEditeText(etSalary,day.getTips());
+                setTextToEditeText(etSalary,day.getSalary());
                 dayIsExist = true;
             }
             else {
-
                 DaySettings pathern = DataEditor.intentFromPathern(this);
                 setTextToEditeText(etPercent,pathern.getPercent());
                 setTextToEditeText(etMph,pathern.getMoneyPerHour());
+                setTextToEditeText(etSalary,pathern.getSalary());
                 tvIncrHour.setText(pathern.getIncrHour());
                 tvStart.setText(pathern.getStartTime());
                 tvEnd.setText(pathern.getEndTime());
-                Button btn = (Button) findViewById(R.id.button);
+                Button btn = findViewById(R.id.button);
                 btn.setVisibility(View.GONE);
             }
             }
@@ -155,6 +166,10 @@ public class DaysOptionActivity extends AppCompatActivity {
         percentCont = findViewById(R.id.percent_cont2);
         tipsCont = findViewById(R.id.tips_cont2);
         incrCont = findViewById(R.id.incr_cont2);
+
+        etAmount.addTextChangedListener(new DotWatcher(etAmount));
+        etTips.addTextChangedListener(new DotWatcher(etTips));
+        etMph.addTextChangedListener(new DotWatcher(etMph));
     }
 
 

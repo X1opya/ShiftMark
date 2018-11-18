@@ -1,8 +1,9 @@
-package com.android.bignerdranch.shiftmark;
+package com.android.bignerdranch.shiftmark.Auth;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.bignerdranch.shiftmark.MainActivity;
+import com.android.bignerdranch.shiftmark.R;
 import com.android.bignerdranch.shiftmark.data.DataBase.DBEditor;
 import com.android.bignerdranch.shiftmark.data.ModelMonth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -43,7 +46,7 @@ public class AuthorizeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorize);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         btnGoogle = findViewById(R.id.btn_google);
         mAuth = FirebaseAuth.getInstance();
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -67,7 +70,7 @@ public class AuthorizeActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
-                readFromFirebase();
+
                 //finish();
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
@@ -86,7 +89,7 @@ public class AuthorizeActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            btnGoogle.setText("Вошел");
+                            readFromFirebase();
                         } else {
                             btnGoogle.setText("Не вошел");
                         }
@@ -122,6 +125,7 @@ public class AuthorizeActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
+        Log.println(Log.ASSERT,"TAG", "конец метода (недостижим при нормальных условиях)");
     }
 
     private void showDial(){

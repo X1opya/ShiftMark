@@ -1,4 +1,4 @@
-package com.android.bignerdranch.shiftmark;
+package com.android.bignerdranch.shiftmark.Auth;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

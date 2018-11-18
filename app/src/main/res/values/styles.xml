@@ -26,13 +26,18 @@
     </style>
     //------------------------------------
     <style name="MyAppTheme" parent="AppTheme">
-        <item name="colorPrimary">#b71c1c</item>
-        <item name="colorPrimaryDark">#7f0000</item>
-        <item name="colorAccent">#f05545</item>
+        <item name="colorPrimary">#ab0000</item>
+        <item name="colorPrimaryDark">#e62f17</item>
+        <item name="colorAccent">#ff6743</item>
         <item name="buttonStyle">
             @style/Widget.AppCompat.Button.Colored
         </item>
         <item name="android:textViewStyle">@style/BlackTextView</item>
+    </style>
+
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">#ff6743</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 
     <style name="BlackTextView">

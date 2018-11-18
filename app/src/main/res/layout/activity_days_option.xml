@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.android.bignerdranch.shiftmark.DaysOptionActivity">
+    tools:context="com.android.bignerdranch.shiftmark.DaysOptionActivity"
+    android:id="@+id/days_option_container">
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -176,7 +177,7 @@
                     android:layout_gravity="center"
                     android:backgroundTint="@color/colorDark"
                     android:gravity="center"
-                    android:inputType="numberDecimal" />
+                    android:inputType="number" />
             </LinearLayout>
 
     <LinearLayout

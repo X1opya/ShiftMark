@@ -1,8 +1,5 @@
 package com.android.bignerdranch.shiftmark;
 
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,28 +8,23 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.android.bignerdranch.shiftmark.Auth.AuthorizeActivity;
 import com.android.bignerdranch.shiftmark.Settings.SettingsActivity;
 import com.android.bignerdranch.shiftmark.data.DataBase.DBEditor;
 import com.android.bignerdranch.shiftmark.data.DayData.CulcData;
 import com.android.bignerdranch.shiftmark.data.DayData.Day;
 import com.android.bignerdranch.shiftmark.data.ModelMonth;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -43,8 +35,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.content.SharedPreferences.*;
 
 public class MainActivity extends AppCompatActivity {
     public static final String REF = "Users/" ;
@@ -69,15 +59,22 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         if(!mSettings.getBoolean(IS_END,false)){
-            startActivity(new Intent(this,SettingsActivity.class));
+            Intent hintIntent = new Intent();
+            hintIntent.putExtra("date", getResources().getString(R.string.set_message_to_settings));
+            hintIntent.putExtra("mod", true);
+            hintIntent.putExtra("hint",true);
+            hintIntent.setClass(this,DaysOptionActivity.class);
+            startActivity(hintIntent);
+            hintIntent.putExtra("hint",true);
+            hintIntent.setClass(this,SettingsActivity.class);
+            startActivity(hintIntent);
+
         }
         startActivity(new Intent(this,AuthorizeActivity.class));
         editor = new DBEditor(this);
         initViews();
         database = FirebaseDatabase.getInstance();
         updateUi(calendarView.getCurrentDate());
-
-
     }
 
     private void initViews(){
@@ -102,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         cPrem = findViewById(R.id.prem_cont);
         cSalary = findViewById(R.id.salary_cont);
         cTips = findViewById(R.id.tips_cont);
+
     }
 
     private void setCalendarListeners(){

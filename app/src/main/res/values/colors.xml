@@ -8,7 +8,8 @@
     <color name="colorDark">#000000</color>
     <color name="colorSave">#7dca2a</color>
     <color name="colorUnsave">#ed7e7e</color>
-    <color name="textColor">#f05545</color>
-    <color name="theme">#f05545</color>
+    <color name="textColor">#000000</color>
+    <color name="textColorDark">#000000</color>
+    <color name="theme">#e52e16</color>
     f05545
 </resources>

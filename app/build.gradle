@@ -39,4 +39,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:16.0.5'
 
     implementation 'com.jakewharton:process-phoenix:2.0.0'
+    implementation 'com.github.takusemba:spotlight:1.6.1'
 }
